@@ -1,10 +1,11 @@
 # PPTX Notes Enricher
 
-Reads a PowerPoint deck, assesses every slide's content and speaker notes, and enriches weak notes with web research done by **your own GitHub Copilot CLI** (`web_search` / `web_fetch`, plus Microsoft's Azure Updates MCP server). You review each proposal against the current notes, accept, edit or reject it, and export a copy of the deck with the accepted notes. The original file is never modified.
+Reads a PowerPoint deck, assesses every slide's content and speaker notes, and enriches weak notes with web research done by **your own GitHub Copilot CLI**. Research uses `web_search` / `web_fetch` and Microsoft's Release Communications MCP server for authoritative Azure Updates. An optional browser-local multilingual embedding model finds related slides, likely duplicates and deck topics without sending slide text to an embedding service. You review each proposal against the current notes, accept, edit or reject it, and export a copy of the deck with the accepted notes. The original file is never modified.
 
 - **Frontend:** React 19 + TypeScript + Vite (`src/web`)
 - **Backend:** .NET 10 minimal API with the Open XML SDK and the GitHub Copilot SDK (`src/PptxEnricher.Api`)
 - **Orchestration:** Aspire AppHost (`src/PptxEnricher.AppHost`) starts your Copilot CLI headless, the API and the web app
+- **Local similarity:** Transformers.js runs the quantized `Xenova/multilingual-e5-small` embedding model in a Web Worker
 - **Tests:** xUnit (`tests/PptxEnricher.Api.Tests`), Vitest components/state and Playwright workflows (`src/web`)
 
 ## Quick start
@@ -14,8 +15,9 @@ Reads a PowerPoint deck, assesses every slide's content and speaker notes, and e
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - [Node.js](https://nodejs.org) 24 LTS, or 22.13 or newer (required by the Vite and ESLint versions in `src/web`)
 - [GitHub Copilot CLI](https://docs.github.com/en/copilot/how-tos/copilot-cli/set-up-copilot-cli/install-copilot-cli) on your `PATH`, signed in once with `copilot` → `/login` (or `GH_TOKEN`/`GITHUB_TOKEN` set). An active Copilot subscription is required.
+- A current browser with WebAssembly, Web Workers, Cache API and IndexedDB support. Slide comparison also needs one-time access to Hugging Face to download the embedding model.
 
-You do not need the Aspire CLI, a separate API key, or custom configuration.
+You do not need the Aspire CLI, a separate API key, an Azure credential, or custom configuration.
 
 ### 2. Start the application
 
@@ -40,7 +42,11 @@ dotnet run --project src\PptxEnricher.AppHost
 
 Open the Aspire dashboard URL printed in the terminal, then click the **web** resource's endpoint. Use that URL rather than assuming a fixed web port.
 
-Upload a `.pptx` → **Research flagged** (or select slides to research) → review and accept notes → **Export**. Research uses your Copilot account and can consume premium requests; the original file is never modified.
+Upload a `.pptx` → optionally **Compare slides** to find duplicates and topics → **Research flagged** (or select slides to research) → review and accept notes → **Export**.
+
+- Research uses your Copilot account and can consume premium requests.
+- Slide comparison runs locally in the browser and uses no Copilot requests. The first comparison downloads about 120 MB from Hugging Face; later runs reuse the browser cache.
+- The original file is never modified.
 
 <details>
 <summary>Advanced startup options and how the AppHost works</summary>
@@ -160,13 +166,15 @@ work is recovered as cancelled on restart.
 
 ### Finding similar slides
 
-The whole deck is compared at once. Start it with **Compare slides** at the top of the storyboard, or with **Find similar slides** in the review workspace. Both reuse the slide text the API already returns, so no extra endpoint is involved. The browser:
+The whole deck is compared at once. Comparison is opt-in: the model is not downloaded until you choose **Compare slides** at the top of the storyboard or **Find similar slides** in the review workspace. Both reuse the slide text the API already returns, so no extra endpoint is involved. The browser:
 
 - removes template lines that repeat across most of the deck (footers, labels);
 - embeds each slide's visible text and its notes (accepted notes when present) with [`multilingual-e5-small`](https://huggingface.co/Xenova/multilingual-e5-small) through [Transformers.js](https://huggingface.co/docs/transformers.js) in a Web Worker (WASM, 8-bit quantized);
 - caches the vectors in IndexedDB (`slide-embeddings`), keyed by model and text. Only changed text is embedded again, and a deck you have compared before reopens with its results.
 
-The first run downloads the model (about 120 MB) from Hugging Face into the browser's Cache API (`transformers-cache`). Later runs load it from there and report "Loading the model from this browser". Slide text stays in the browser and no Copilot requests are used. Both caches are per browser profile and per origin (scheme, host and port), which is why the AppHost pins the web app's port.
+The first run downloads the 8-bit quantized model (about 120 MB) from Hugging Face into the browser's Cache API (`transformers-cache`). Inference uses WebAssembly in a background worker, so it does not use a server-side GPU or Python runtime. Later runs load the model from the cache and report "Loading the model from this browser". Slide text stays in the browser and no Copilot requests are used. Both caches are per browser profile and per origin (scheme, host and port), which is why the AppHost pins the web app's port.
+
+The embedding model is currently fixed in `src/web/src/lib/similarity.ts`; it is separate from the Copilot model selected for research. Changing it in source creates a new vector-cache namespace because the model id is part of every IndexedDB key.
 
 Matches are labelled as follows:
 
@@ -283,6 +291,8 @@ cd src\web; npm run lint; npm run build    # frontend checks
 - **Cost and time:** each slide enrichment sends one initial Copilot request on your account, billed as premium requests according to the model you pick. An unusable answer triggers one automatic retry, and writing-rule violations trigger up to `Copilot:RepairAttempts` further requests, each of which can also be billed. A slide typically takes 40 seconds to 3 minutes, but this varies by model and sources.
 - **Research activity:** while a slide is researched, the panel shows the latest eight steps live: the model's stated plan, a short summary of its reasoning (when the model provides one), each search or page it opens, and what every tool returned (with its size). Failures and blocked actions are highlighted. The full log (up to 120 lines) is under "Research activity" and is kept in memory only.
 - **Azure Updates need internet access to `www.microsoft.com`:** if that host is unreachable (for example behind a proxy or DNS filter), the Azure Updates tools fail and the slide falls back to `web_search`/`web_fetch`, usually with lower confidence.
+- **Embedding download needs internet access to Hugging Face:** after the first successful download the model is reused from the browser's Cache API. Changing browser profile, scheme, host or `Web:Port`, using private browsing, or clearing site data causes another download. Cached slide vectors are likewise removed when site data is cleared.
+- **Copilot and embedding models are independent:** the model picker changes the generative model used for research. Slide comparison always uses the browser-local `multilingual-e5-small` model and never consumes Copilot premium requests.
 - **Experimental SDK APIs:** the API suppresses `GHCP001` because the SDK marks `PermissionDecision` and typed `SendAndWaitAsync<T>` as experimental.
 - **Review is required:** nothing reaches the deck without an explicit accept, and the export is always a new file.
 - **Design system:** see [DESIGN.md](DESIGN.md) and [PRODUCT.md](PRODUCT.md).
