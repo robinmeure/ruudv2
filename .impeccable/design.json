@@ -1,0 +1,731 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-13T11:34:54.362Z",
+  "title": "Design System: Notes Enricher",
+  "extensions": {
+    "colorMeta": {
+      "rail": {
+        "role": "primary",
+        "displayName": "Console Rail",
+        "canonical": "#2b3a36",
+        "tonalRamp": [
+          "oklch(15.0% 0.021 176.8)",
+          "oklch(26.4% 0.021 176.8)",
+          "oklch(37.9% 0.021 176.8)",
+          "oklch(49.3% 0.021 176.8)",
+          "oklch(60.7% 0.021 176.8)",
+          "oklch(72.1% 0.021 176.8)",
+          "oklch(83.6% 0.021 176.8)",
+          "oklch(95.0% 0.021 176.8)"
+        ]
+      },
+      "rail-raised": {
+        "role": "primary",
+        "displayName": "Raised Rail",
+        "canonical": "#364841",
+        "tonalRamp": [
+          "oklch(15.0% 0.026 169.2)",
+          "oklch(26.4% 0.026 169.2)",
+          "oklch(37.9% 0.026 169.2)",
+          "oklch(49.3% 0.026 169.2)",
+          "oklch(60.7% 0.026 169.2)",
+          "oklch(72.1% 0.026 169.2)",
+          "oklch(83.6% 0.026 169.2)",
+          "oklch(95.0% 0.026 169.2)"
+        ]
+      },
+      "rail-ink": {
+        "role": "primary",
+        "displayName": "Rail Legend",
+        "canonical": "#e8ece3",
+        "tonalRamp": [
+          "oklch(15.0% 0.013 126.4)",
+          "oklch(26.4% 0.013 126.4)",
+          "oklch(37.9% 0.013 126.4)",
+          "oklch(49.3% 0.013 126.4)",
+          "oklch(60.7% 0.013 126.4)",
+          "oklch(72.1% 0.013 126.4)",
+          "oklch(83.6% 0.013 126.4)",
+          "oklch(95.0% 0.013 126.4)"
+        ]
+      },
+      "rail-ink-2": {
+        "role": "primary",
+        "displayName": "Dim Rail Legend",
+        "canonical": "#a9b8b0",
+        "tonalRamp": [
+          "oklch(15.0% 0.020 162.8)",
+          "oklch(26.4% 0.020 162.8)",
+          "oklch(37.9% 0.020 162.8)",
+          "oklch(49.3% 0.020 162.8)",
+          "oklch(60.7% 0.020 162.8)",
+          "oklch(72.1% 0.020 162.8)",
+          "oklch(83.6% 0.020 162.8)",
+          "oklch(95.0% 0.020 162.8)"
+        ]
+      },
+      "holder-needs": {
+        "role": "secondary",
+        "displayName": "Needs-Notes Amber",
+        "canonical": "#e2a62e",
+        "tonalRamp": [
+          "oklch(15.0% 0.145 79.7)",
+          "oklch(26.4% 0.145 79.7)",
+          "oklch(37.9% 0.145 79.7)",
+          "oklch(49.3% 0.145 79.7)",
+          "oklch(60.7% 0.145 79.7)",
+          "oklch(72.1% 0.145 79.7)",
+          "oklch(83.6% 0.145 79.7)",
+          "oklch(95.0% 0.145 79.7)"
+        ]
+      },
+      "holder-needs-deep": {
+        "role": "secondary",
+        "displayName": "Burnt Amber",
+        "canonical": "#a8740c",
+        "tonalRamp": [
+          "oklch(15.0% 0.122 76.7)",
+          "oklch(26.4% 0.122 76.7)",
+          "oklch(37.9% 0.122 76.7)",
+          "oklch(49.3% 0.122 76.7)",
+          "oklch(60.7% 0.122 76.7)",
+          "oklch(72.1% 0.122 76.7)",
+          "oklch(83.6% 0.122 76.7)",
+          "oklch(95.0% 0.122 76.7)"
+        ]
+      },
+      "holder-ok": {
+        "role": "secondary",
+        "displayName": "Steel Holder",
+        "canonical": "#93a9b6",
+        "tonalRamp": [
+          "oklch(15.0% 0.031 233.8)",
+          "oklch(26.4% 0.031 233.8)",
+          "oklch(37.9% 0.031 233.8)",
+          "oklch(49.3% 0.031 233.8)",
+          "oklch(60.7% 0.031 233.8)",
+          "oklch(72.1% 0.031 233.8)",
+          "oklch(83.6% 0.031 233.8)",
+          "oklch(95.0% 0.031 233.8)"
+        ]
+      },
+      "holder-ok-deep": {
+        "role": "secondary",
+        "displayName": "Deep Steel",
+        "canonical": "#5f7a89",
+        "tonalRamp": [
+          "oklch(15.0% 0.039 232.7)",
+          "oklch(26.4% 0.039 232.7)",
+          "oklch(37.9% 0.039 232.7)",
+          "oklch(49.3% 0.039 232.7)",
+          "oklch(60.7% 0.039 232.7)",
+          "oklch(72.1% 0.039 232.7)",
+          "oklch(83.6% 0.039 232.7)",
+          "oklch(95.0% 0.039 232.7)"
+        ]
+      },
+      "holder-skip": {
+        "role": "secondary",
+        "displayName": "Graphite Holder",
+        "canonical": "#6a7074",
+        "tonalRamp": [
+          "oklch(15.0% 0.010 236.7)",
+          "oklch(26.4% 0.010 236.7)",
+          "oklch(37.9% 0.010 236.7)",
+          "oklch(49.3% 0.010 236.7)",
+          "oklch(60.7% 0.010 236.7)",
+          "oklch(72.1% 0.010 236.7)",
+          "oklch(83.6% 0.010 236.7)",
+          "oklch(95.0% 0.010 236.7)"
+        ]
+      },
+      "lamp": {
+        "role": "tertiary",
+        "displayName": "Copilot Lamp",
+        "canonical": "#0a8bb5",
+        "tonalRamp": [
+          "oklch(15.0% 0.115 228.7)",
+          "oklch(26.4% 0.115 228.7)",
+          "oklch(37.9% 0.115 228.7)",
+          "oklch(49.3% 0.115 228.7)",
+          "oklch(60.7% 0.115 228.7)",
+          "oklch(72.1% 0.115 228.7)",
+          "oklch(83.6% 0.115 228.7)",
+          "oklch(95.0% 0.115 228.7)"
+        ]
+      },
+      "lamp-ink": {
+        "role": "tertiary",
+        "displayName": "Lamp Ink",
+        "canonical": "#086b8c",
+        "tonalRamp": [
+          "oklch(15.0% 0.095 228.7)",
+          "oklch(26.4% 0.095 228.7)",
+          "oklch(37.9% 0.095 228.7)",
+          "oklch(49.3% 0.095 228.7)",
+          "oklch(60.7% 0.095 228.7)",
+          "oklch(72.1% 0.095 228.7)",
+          "oklch(83.6% 0.095 228.7)",
+          "oklch(95.0% 0.095 228.7)"
+        ]
+      },
+      "lamp-tint": {
+        "role": "tertiary",
+        "displayName": "Lamp Glow",
+        "canonical": "#d6edf4",
+        "tonalRamp": [
+          "oklch(15.0% 0.026 217.9)",
+          "oklch(26.4% 0.026 217.9)",
+          "oklch(37.9% 0.026 217.9)",
+          "oklch(49.3% 0.026 217.9)",
+          "oklch(60.7% 0.026 217.9)",
+          "oklch(72.1% 0.026 217.9)",
+          "oklch(83.6% 0.026 217.9)",
+          "oklch(95.0% 0.026 217.9)"
+        ]
+      },
+      "lamp-on-rail": {
+        "role": "tertiary",
+        "displayName": "Lamp on Rail",
+        "canonical": "#4cc7ea",
+        "tonalRamp": [
+          "oklch(15.0% 0.118 220.3)",
+          "oklch(26.4% 0.118 220.3)",
+          "oklch(37.9% 0.118 220.3)",
+          "oklch(49.3% 0.118 220.3)",
+          "oklch(60.7% 0.118 220.3)",
+          "oklch(72.1% 0.118 220.3)",
+          "oklch(83.6% 0.118 220.3)",
+          "oklch(95.0% 0.118 220.3)"
+        ]
+      },
+      "cleared": {
+        "role": "tertiary",
+        "displayName": "Cleared Green",
+        "canonical": "#21744a",
+        "tonalRamp": [
+          "oklch(15.0% 0.104 156.8)",
+          "oklch(26.4% 0.104 156.8)",
+          "oklch(37.9% 0.104 156.8)",
+          "oklch(49.3% 0.104 156.8)",
+          "oklch(60.7% 0.104 156.8)",
+          "oklch(72.1% 0.104 156.8)",
+          "oklch(83.6% 0.104 156.8)",
+          "oklch(95.0% 0.104 156.8)"
+        ]
+      },
+      "cleared-deep": {
+        "role": "tertiary",
+        "displayName": "Deep Cleared",
+        "canonical": "#1a5f3c",
+        "tonalRamp": [
+          "oklch(15.0% 0.090 156.8)",
+          "oklch(26.4% 0.090 156.8)",
+          "oklch(37.9% 0.090 156.8)",
+          "oklch(49.3% 0.090 156.8)",
+          "oklch(60.7% 0.090 156.8)",
+          "oklch(72.1% 0.090 156.8)",
+          "oklch(83.6% 0.090 156.8)",
+          "oklch(95.0% 0.090 156.8)"
+        ]
+      },
+      "cleared-tint": {
+        "role": "tertiary",
+        "displayName": "Cleared Wash",
+        "canonical": "#dcefe2",
+        "tonalRamp": [
+          "oklch(15.0% 0.027 156.0)",
+          "oklch(26.4% 0.027 156.0)",
+          "oklch(37.9% 0.027 156.0)",
+          "oklch(49.3% 0.027 156.0)",
+          "oklch(60.7% 0.027 156.0)",
+          "oklch(72.1% 0.027 156.0)",
+          "oklch(83.6% 0.027 156.0)",
+          "oklch(95.0% 0.027 156.0)"
+        ]
+      },
+      "alert": {
+        "role": "tertiary",
+        "displayName": "Alert Vermilion",
+        "canonical": "#b93a26",
+        "tonalRamp": [
+          "oklch(15.0% 0.167 31.7)",
+          "oklch(26.4% 0.167 31.7)",
+          "oklch(37.9% 0.167 31.7)",
+          "oklch(49.3% 0.167 31.7)",
+          "oklch(60.7% 0.167 31.7)",
+          "oklch(72.1% 0.167 31.7)",
+          "oklch(83.6% 0.167 31.7)",
+          "oklch(95.0% 0.167 31.7)"
+        ]
+      },
+      "alert-ink": {
+        "role": "tertiary",
+        "displayName": "Alert Ink",
+        "canonical": "#9e2f1d",
+        "tonalRamp": [
+          "oklch(15.0% 0.150 31.9)",
+          "oklch(26.4% 0.150 31.9)",
+          "oklch(37.9% 0.150 31.9)",
+          "oklch(49.3% 0.150 31.9)",
+          "oklch(60.7% 0.150 31.9)",
+          "oklch(72.1% 0.150 31.9)",
+          "oklch(83.6% 0.150 31.9)",
+          "oklch(95.0% 0.150 31.9)"
+        ]
+      },
+      "alert-tint": {
+        "role": "tertiary",
+        "displayName": "Alert Wash",
+        "canonical": "#f7e1db",
+        "tonalRamp": [
+          "oklch(15.0% 0.026 35.7)",
+          "oklch(26.4% 0.026 35.7)",
+          "oklch(37.9% 0.026 35.7)",
+          "oklch(49.3% 0.026 35.7)",
+          "oklch(60.7% 0.026 35.7)",
+          "oklch(72.1% 0.026 35.7)",
+          "oklch(83.6% 0.026 35.7)",
+          "oklch(95.0% 0.026 35.7)"
+        ]
+      },
+      "needs-tint": {
+        "role": "secondary",
+        "displayName": "Amber Wash",
+        "canonical": "#fbefd2",
+        "tonalRamp": [
+          "oklch(15.0% 0.040 88.2)",
+          "oklch(26.4% 0.040 88.2)",
+          "oklch(37.9% 0.040 88.2)",
+          "oklch(49.3% 0.040 88.2)",
+          "oklch(60.7% 0.040 88.2)",
+          "oklch(72.1% 0.040 88.2)",
+          "oklch(83.6% 0.040 88.2)",
+          "oklch(95.0% 0.040 88.2)"
+        ]
+      },
+      "time": {
+        "role": "tertiary",
+        "displayName": "Time Ochre",
+        "canonical": "#8a5a00",
+        "tonalRamp": [
+          "oklch(15.0% 0.108 73.3)",
+          "oklch(26.4% 0.108 73.3)",
+          "oklch(37.9% 0.108 73.3)",
+          "oklch(49.3% 0.108 73.3)",
+          "oklch(60.7% 0.108 73.3)",
+          "oklch(72.1% 0.108 73.3)",
+          "oklch(83.6% 0.108 73.3)",
+          "oklch(95.0% 0.108 73.3)"
+        ]
+      },
+      "bay": {
+        "role": "neutral",
+        "displayName": "Console Sage",
+        "canonical": "#d5dcd5",
+        "tonalRamp": [
+          "oklch(15.0% 0.012 145.5)",
+          "oklch(26.4% 0.012 145.5)",
+          "oklch(37.9% 0.012 145.5)",
+          "oklch(49.3% 0.012 145.5)",
+          "oklch(60.7% 0.012 145.5)",
+          "oklch(72.1% 0.012 145.5)",
+          "oklch(83.6% 0.012 145.5)",
+          "oklch(95.0% 0.012 145.5)"
+        ]
+      },
+      "bay-deep": {
+        "role": "neutral",
+        "displayName": "Recessed Sage",
+        "canonical": "#c4cdc5",
+        "tonalRamp": [
+          "oklch(15.0% 0.015 148.7)",
+          "oklch(26.4% 0.015 148.7)",
+          "oklch(37.9% 0.015 148.7)",
+          "oklch(49.3% 0.015 148.7)",
+          "oklch(60.7% 0.015 148.7)",
+          "oklch(72.1% 0.015 148.7)",
+          "oklch(83.6% 0.015 148.7)",
+          "oklch(95.0% 0.015 148.7)"
+        ]
+      },
+      "bay-line": {
+        "role": "neutral",
+        "displayName": "Bay Hairline",
+        "canonical": "#a9b4ac",
+        "tonalRamp": [
+          "oklch(15.0% 0.017 154.4)",
+          "oklch(26.4% 0.017 154.4)",
+          "oklch(37.9% 0.017 154.4)",
+          "oklch(49.3% 0.017 154.4)",
+          "oklch(60.7% 0.017 154.4)",
+          "oklch(72.1% 0.017 154.4)",
+          "oklch(83.6% 0.017 154.4)",
+          "oklch(95.0% 0.017 154.4)"
+        ]
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Strip Paper",
+        "canonical": "#fbfaf3",
+        "tonalRamp": [
+          "oklch(15.0% 0.009 100.0)",
+          "oklch(26.4% 0.009 100.0)",
+          "oklch(37.9% 0.009 100.0)",
+          "oklch(49.3% 0.009 100.0)",
+          "oklch(60.7% 0.009 100.0)",
+          "oklch(72.1% 0.009 100.0)",
+          "oklch(83.6% 0.009 100.0)",
+          "oklch(95.0% 0.009 100.0)"
+        ]
+      },
+      "paper-2": {
+        "role": "neutral",
+        "displayName": "Aged Paper",
+        "canonical": "#f2f0e4",
+        "tonalRamp": [
+          "oklch(15.0% 0.016 99.0)",
+          "oklch(26.4% 0.016 99.0)",
+          "oklch(37.9% 0.016 99.0)",
+          "oklch(49.3% 0.016 99.0)",
+          "oklch(60.7% 0.016 99.0)",
+          "oklch(72.1% 0.016 99.0)",
+          "oklch(83.6% 0.016 99.0)",
+          "oklch(95.0% 0.016 99.0)"
+        ]
+      },
+      "paper-rule": {
+        "role": "neutral",
+        "displayName": "Printed Rule",
+        "canonical": "#d9d7c9",
+        "tonalRamp": [
+          "oklch(15.0% 0.019 100.2)",
+          "oklch(26.4% 0.019 100.2)",
+          "oklch(37.9% 0.019 100.2)",
+          "oklch(49.3% 0.019 100.2)",
+          "oklch(60.7% 0.019 100.2)",
+          "oklch(72.1% 0.019 100.2)",
+          "oklch(83.6% 0.019 100.2)",
+          "oklch(95.0% 0.019 100.2)"
+        ]
+      },
+      "paper-lit": {
+        "role": "neutral",
+        "displayName": "Lit Paper",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0)",
+          "oklch(26.4% 0.000 0)",
+          "oklch(37.9% 0.000 0)",
+          "oklch(49.3% 0.000 0)",
+          "oklch(60.7% 0.000 0)",
+          "oklch(72.1% 0.000 0)",
+          "oklch(83.6% 0.000 0)",
+          "oklch(95.0% 0.000 0)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Strip Ink",
+        "canonical": "#1d262b",
+        "tonalRamp": [
+          "oklch(15.0% 0.016 232.5)",
+          "oklch(26.4% 0.016 232.5)",
+          "oklch(37.9% 0.016 232.5)",
+          "oklch(49.3% 0.016 232.5)",
+          "oklch(60.7% 0.016 232.5)",
+          "oklch(72.1% 0.016 232.5)",
+          "oklch(83.6% 0.016 232.5)",
+          "oklch(95.0% 0.016 232.5)"
+        ]
+      },
+      "ink-2": {
+        "role": "neutral",
+        "displayName": "Faded Ink",
+        "canonical": "#48555b",
+        "tonalRamp": [
+          "oklch(15.0% 0.019 227.4)",
+          "oklch(26.4% 0.019 227.4)",
+          "oklch(37.9% 0.019 227.4)",
+          "oklch(49.3% 0.019 227.4)",
+          "oklch(60.7% 0.019 227.4)",
+          "oklch(72.1% 0.019 227.4)",
+          "oklch(83.6% 0.019 227.4)",
+          "oklch(95.0% 0.019 227.4)"
+        ]
+      },
+      "ink-3": {
+        "role": "neutral",
+        "displayName": "Pencil Gray",
+        "canonical": "#5f6b70",
+        "tonalRamp": [
+          "oklch(15.0% 0.017 224.7)",
+          "oklch(26.4% 0.017 224.7)",
+          "oklch(37.9% 0.017 224.7)",
+          "oklch(49.3% 0.017 224.7)",
+          "oklch(60.7% 0.017 224.7)",
+          "oklch(72.1% 0.017 224.7)",
+          "oklch(83.6% 0.017 224.7)",
+          "oklch(95.0% 0.017 224.7)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The lifted strip's slide title only."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "The home console's single heading."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Strip titles, keys and panel headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Speaker notes, current and proposed, at a 68ch measure."
+      },
+      "label": {
+        "displayName": "Field Label",
+        "purpose": "Printed field names and rack section dividers; never a kicker."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Field values, counts, word budgets and log lines."
+      },
+      "numeral-strip": {
+        "displayName": "Strip Numeral",
+        "purpose": "Slide numbers in the rack."
+      },
+      "numeral-lifted": {
+        "displayName": "Lifted Numeral",
+        "purpose": "The slide number on the lifted strip."
+      }
+    },
+    "shadows": [
+      {
+        "name": "racked",
+        "value": "0 1px 2px rgb(29 38 43 / 0.2), 0 2px 6px rgb(29 38 43 / 0.08)",
+        "purpose": "Every strip at rest and the pressed bay tab."
+      },
+      {
+        "name": "cocked",
+        "value": "0 3px 8px rgb(29 38 43 / 0.22), 0 8px 20px rgb(8 107 140 / 0.12)",
+        "purpose": "A strip with an unopened proposal, cocked 14px out of the rack."
+      },
+      {
+        "name": "lifted",
+        "value": "0 10px 28px rgb(29 38 43 / 0.16), 0 2px 6px rgb(29 38 43 / 0.14)",
+        "purpose": "The active slide's strip in the workspace."
+      },
+      {
+        "name": "sheet",
+        "value": "0 1px 2px rgb(29 38 43 / 0.12), 0 4px 14px rgb(29 38 43 / 0.06)",
+        "purpose": "Desk panels and the home brief."
+      },
+      {
+        "name": "key",
+        "value": "0 1px 0 rgb(29 38 43 / 0.08)",
+        "purpose": "The underline of a console key."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Strip cocking and uncocking over 420ms."
+      },
+      {
+        "name": "key-press",
+        "value": "transform 80ms ease",
+        "purpose": "Keys press 1px down on active."
+      },
+      {
+        "name": "color-shift",
+        "value": "140ms ease",
+        "purpose": "Background and border color changes on hover."
+      },
+      {
+        "name": "lamp-pulse",
+        "value": "1.6s ease-in-out infinite",
+        "purpose": "The lamp of a slide in research."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "1ms",
+        "purpose": "All animation and transition durations under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "shell-wide",
+        "value": "1180px"
+      },
+      {
+        "name": "shell-single-pane",
+        "value": "900px"
+      },
+      {
+        "name": "shell-compact",
+        "value": "640px"
+      },
+      {
+        "name": "workspace-stack (container)",
+        "value": "680px"
+      },
+      {
+        "name": "rack-no-flags (container)",
+        "value": "520px"
+      },
+      {
+        "name": "rack-no-notes (container)",
+        "value": "400px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Key",
+      "kind": "button",
+      "refersTo": "key",
+      "description": "Default console key for secondary actions such as Export or Research again.",
+      "html": "<button class=\"ds-key\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"M12 18v-6\"/><path d=\"m9 15 3 3 3-3\"/></svg>Export 1 accepted</button>",
+      "css": ".ds-key{display:inline-flex;align-items:center;gap:0.45rem;min-height:2.25rem;padding:0.4rem 0.85rem;border:1px solid var(--bay-line);border-radius:3px;background:var(--paper);color:var(--ink);font:700 0.8125rem/1.2 var(--font-ui);white-space:nowrap;cursor:pointer;box-shadow:0 1px 0 rgb(29 38 43 / 0.08);transition:background-color 140ms ease,border-color 140ms ease,transform 80ms ease;} .ds-key:hover{border-color:var(--ink-3);background:#fff;} .ds-key:active{transform:translateY(1px);} .ds-key:focus-visible{outline:2px solid var(--lamp);outline-offset:2px;}"
+    },
+    {
+      "name": "Primary Key",
+      "kind": "button",
+      "refersTo": "key-primary",
+      "description": "The one main action in view: Choose file, Enrich flagged, Research this slide.",
+      "html": "<button class=\"ds-key-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M19.07 4.93A10 10 0 0 0 6.99 3.34\"/><path d=\"M4 6h.01\"/><path d=\"M2.29 9.62A10 10 0 1 0 21.31 8.35\"/><path d=\"M16.24 7.76A6 6 0 1 0 8.23 16.67\"/><path d=\"M12 18h.01\"/><path d=\"M17.99 11.66A6 6 0 0 1 15.77 16.67\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"m13.41 10.59 5.66-5.66\"/></svg>Enrich 12 flagged</button>",
+      "css": ".ds-key-primary{display:inline-flex;align-items:center;gap:0.45rem;min-height:2.25rem;padding:0.4rem 0.85rem;border:1px solid var(--bay-line);border-radius:3px;background:var(--paper);color:var(--ink);font:700 0.8125rem/1.2 var(--font-ui);white-space:nowrap;cursor:pointer;box-shadow:0 1px 0 rgb(29 38 43 / 0.08);transition:background-color 140ms ease,border-color 140ms ease,transform 80ms ease;border-color:var(--rail);background:var(--rail);color:var(--rail-ink);} .ds-key-primary:hover{border-color:var(--rail-raised);background:var(--rail-raised);} .ds-key-primary:active{transform:translateY(1px);} .ds-key-primary:focus-visible{outline:2px solid var(--lamp);outline-offset:2px;}"
+    },
+    {
+      "name": "Accept Key",
+      "kind": "button",
+      "refersTo": "key-cleared",
+      "description": "Accepts proposed notes; cleared green.",
+      "html": "<button class=\"ds-key-cleared\">Accept notes</button>",
+      "css": ".ds-key-cleared{display:inline-flex;align-items:center;gap:0.45rem;min-height:2.25rem;padding:0.4rem 0.85rem;border:1px solid var(--bay-line);border-radius:3px;background:var(--paper);color:var(--ink);font:700 0.8125rem/1.2 var(--font-ui);white-space:nowrap;cursor:pointer;box-shadow:0 1px 0 rgb(29 38 43 / 0.08);transition:background-color 140ms ease,border-color 140ms ease,transform 80ms ease;border-color:var(--cleared);background:var(--cleared);color:#fff;} .ds-key-cleared:hover{border-color:#1a5f3c;background:#1a5f3c;} .ds-key-cleared:active{transform:translateY(1px);} .ds-key-cleared:focus-visible{outline:2px solid var(--lamp);outline-offset:2px;}"
+    },
+    {
+      "name": "Quiet Key",
+      "kind": "button",
+      "refersTo": "key-quiet",
+      "description": "Low-emphasis action such as Reject or Cancel.",
+      "html": "<button class=\"ds-key-quiet\">Reject</button>",
+      "css": ".ds-key-quiet{display:inline-flex;align-items:center;gap:0.45rem;min-height:2.25rem;padding:0.4rem 0.85rem;border:1px solid var(--bay-line);border-radius:3px;background:var(--paper);color:var(--ink);font:700 0.8125rem/1.2 var(--font-ui);white-space:nowrap;cursor:pointer;box-shadow:0 1px 0 rgb(29 38 43 / 0.08);transition:background-color 140ms ease,border-color 140ms ease,transform 80ms ease;border-color:transparent;background:transparent;color:var(--ink-2);box-shadow:none;} .ds-key-quiet:hover{background:rgb(29 38 43 / 0.07);color:var(--ink);} .ds-key-quiet:focus-visible{outline:2px solid var(--lamp);outline-offset:2px;}"
+    },
+    {
+      "name": "Bay Tabs",
+      "kind": "nav",
+      "refersTo": "bay-tab",
+      "description": "Filters the rack by workflow bay, with counts washed in each bay signal.",
+      "html": "<div class=\"ds-tabs\" role=\"group\"><button class=\"ds-tab\" aria-pressed=\"true\">All <span class=\"ds-count\">75</span></button><button class=\"ds-tab\" aria-pressed=\"false\">Needs notes <span class=\"ds-count ds-count-needs\">12</span></button><button class=\"ds-tab\" aria-pressed=\"false\">To review <span class=\"ds-count ds-count-lamp\">3</span></button><button class=\"ds-tab\" aria-pressed=\"false\">Cleared <span class=\"ds-count ds-count-cleared\">1</span></button></div>",
+      "css": ".ds-tabs{display:flex;flex-wrap:wrap;gap:2px;padding:3px;border-radius:5px;background:var(--bay-deep);} .ds-tab{flex:1 1 auto;display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;padding:0.35rem 0.55rem;border:0;border-radius:3px;background:transparent;color:var(--ink-2);font:0.75rem/1.5 var(--font-ui);white-space:nowrap;cursor:pointer;} .ds-tab:hover{background:rgb(255 255 255 / 0.45);color:var(--ink);} .ds-tab:focus-visible{outline:2px solid var(--lamp);outline-offset:2px;} .ds-tab[aria-pressed='true']{background:var(--paper);color:var(--ink);font-weight:700;box-shadow:var(--shadow-strip);} .ds-count{min-width:1.4rem;padding:0 0.3rem;border-radius:2px;background:rgb(29 38 43 / 0.08);font:700 0.6875rem/1.5 var(--font-data);text-align:center;} .ds-count-needs{background:color-mix(in oklab, var(--holder-needs) 55%, var(--paper));} .ds-count-lamp{background:var(--lamp-tint);} .ds-count-cleared{background:var(--cleared-tint);}"
+    },
+    {
+      "name": "Flight Strip",
+      "kind": "custom",
+      "refersTo": "strip-paper",
+      "description": "Signature unit: one slide as a paper strip in its holder, with printed fields and a state lamp or pen mark.",
+      "html": "<div class=\"ds-strip\" data-holder=\"needs\"><a class=\"ds-strip-body\" href=\"#\"><span class=\"ds-field ds-designator\"><span class=\"ds-num\">03</span><span class=\"ds-label\">Section</span></span><span class=\"ds-field\"><span class=\"ds-title\">Unlocking Innovations with Azure</span><span class=\"ds-sub\">Start</span></span><span class=\"ds-field\"><span class=\"ds-label\">Notes</span><span class=\"ds-ramp\"><i data-lit></i><i></i><i></i><i></i><i></i></span><span class=\"ds-label ds-alert\">Thin</span></span><span class=\"ds-field ds-state\"><span class=\"ds-lamp\"></span><span class=\"ds-state-label\">To review</span></span></a></div><div class=\"ds-strip\" data-holder=\"ok\"><a class=\"ds-strip-body\" href=\"#\"><span class=\"ds-field ds-designator\"><span class=\"ds-num\">06</span></span><span class=\"ds-field\"><span class=\"ds-title\">Services Retirement Workbook</span><span class=\"ds-sub\">Azure Retirements</span></span><span class=\"ds-field\"><span class=\"ds-label\">Notes</span><span class=\"ds-ramp\"><i data-lit></i><i data-lit></i><i data-lit></i><i data-lit></i><i data-lit></i></span><span class=\"ds-label\">OK</span></span><span class=\"ds-field ds-state\"><span class=\"ds-state-label ds-cleared\">Accepted</span><svg class=\"ds-pen\" viewBox=\"0 0 28 22\" aria-hidden=\"true\"><path d=\"M2.5 12.8c2.1 1.1 4.1 3.4 5.6 6.4.4.8 1.3.8 1.7 0C13.1 12.3 18.6 6 25.4 2.4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span></a></div>",
+      "css": ".ds-strip{--holder:var(--holder-ok);display:block;margin-bottom:6px;padding:3px;border-radius:4px;background:var(--holder);box-shadow:var(--shadow-strip);transition:transform 420ms var(--ease-out),box-shadow 420ms var(--ease-out);} .ds-strip[data-holder='needs']{--holder:var(--holder-needs);transform:translateX(14px);box-shadow:var(--shadow-cocked);} .ds-strip-body{display:grid;grid-template-columns:4rem minmax(0,1fr) 5.75rem 6.75rem;min-height:3.4rem;border-radius:2px;background:var(--paper);color:var(--ink);text-decoration:none;transition:background-color 140ms ease;} .ds-strip-body:hover{background:#fff;} .ds-strip-body:focus-visible{outline:2px solid var(--lamp);outline-offset:2px;outline-offset:3px;} .ds-field{min-width:0;display:flex;flex-direction:column;justify-content:center;gap:0.1rem;padding:0.3rem 0.55rem;} .ds-field+.ds-field{border-left:1px solid var(--paper-rule);} .ds-designator{align-items:center;background:color-mix(in oklab, var(--holder) 28%, var(--paper));} .ds-num{font:700 1.125rem/1.1 var(--font-data);font-variant-numeric:tabular-nums;} .ds-label{color:var(--ink-3);font:700 0.625rem/1.3 var(--font-data);letter-spacing:0.06em;text-transform:uppercase;} .ds-alert{color:var(--time);} .ds-title{overflow:hidden;font:700 0.8125rem/1.3 var(--font-ui);white-space:nowrap;text-overflow:ellipsis;} .ds-sub{color:var(--ink-3);font-size:0.6875rem;} .ds-ramp{display:inline-flex;align-items:flex-end;gap:2px;height:14px;} .ds-ramp i{width:4px;border-radius:1px;background:var(--paper-rule);} .ds-ramp i:nth-child(1){height:6px;} .ds-ramp i:nth-child(2){height:8px;} .ds-ramp i:nth-child(3){height:10px;} .ds-ramp i:nth-child(4){height:12px;} .ds-ramp i:nth-child(5){height:14px;} .ds-ramp i[data-lit]{background:var(--ink-2);} .ds-state{flex-direction:row;align-items:center;justify-content:flex-start;gap:0.45rem;} .ds-lamp{flex:none;width:8px;height:8px;border-radius:50%;background:var(--lamp);box-shadow:0 0 0 3px var(--lamp-tint);} .ds-state-label{color:var(--lamp-ink);font:700 0.6875rem/1.3 var(--font-data);white-space:nowrap;} .ds-cleared{color:var(--cleared);} .ds-pen{flex:none;width:1.3rem;height:1.05rem;color:var(--cleared);}"
+    },
+    {
+      "name": "Printed Fields",
+      "kind": "card",
+      "refersTo": "lifted-field",
+      "description": "The lifted strip field grid: tiny mono labels over data values, divided by printed rules.",
+      "html": "<dl class=\"ds-fields\"><div><dt>Slide text</dt><dd>95 words</dd></div><div><dt>Notes cover slide</dt><dd>0%</dd></div><div><dt>Time-sensitive</dt><dd class=\"ds-time\">Yes</dd></div><div><dt>State</dt><dd>Accepted</dd></div></dl>",
+      "css": ".ds-fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(9.5rem,1fr));gap:1px;margin:0;border:1px solid var(--paper-rule);background:var(--paper-rule);} .ds-fields>div{display:grid;align-content:start;gap:0.2rem;padding:0.45rem 0.6rem;background:var(--paper);} .ds-fields dt{color:var(--ink-3);font:700 0.625rem/1.3 var(--font-data);letter-spacing:0.06em;text-transform:uppercase;} .ds-fields dd{margin:0;font:0.8125rem/1.35 var(--font-data);font-variant-numeric:tabular-nums;} .ds-time{color:var(--time);font-weight:700;}"
+    },
+    {
+      "name": "Notes Editor",
+      "kind": "input",
+      "refersTo": "notes-editor",
+      "description": "Editable proposed notes at body measure; lamp focus halo.",
+      "html": "<textarea class=\"ds-notes\" aria-label=\"Proposed notes\">This slide introduces the Service Retirement workbook, a free template in Azure Advisor.</textarea>",
+      "css": ".ds-notes{width:100%;max-width:68ch;min-height:8rem;padding:0.5rem 0.6rem;border:1px solid var(--paper-rule);border-radius:2px;background:#fffefa;color:var(--ink);font:0.9375rem/1.65 var(--font-ui);resize:vertical;} .ds-notes:hover{border-color:var(--ink-3);} .ds-notes:focus{border-color:var(--lamp);outline:none;box-shadow:0 0 0 3px var(--lamp-tint);}"
+    },
+    {
+      "name": "Console Bar",
+      "kind": "nav",
+      "refersTo": "console-bar",
+      "description": "The rail across the top: deck, Copilot link with lamp, model selector, Export.",
+      "html": "<header class=\"ds-bar\"><strong class=\"ds-deck\">Technical Update Briefing<small>deck.pptx · 75 slides</small></strong><span class=\"ds-link\"><span class=\"ds-bar-lamp\"></span>Copilot CLI 1.0.97</span><label class=\"ds-model\"><span>Model</span><select><option>CLI default</option></select></label><button class=\"ds-export\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"M12 18v-6\"/><path d=\"m9 15 3 3 3-3\"/></svg>Export 1 accepted</button></header>",
+      "css": ".ds-bar{display:flex;align-items:center;gap:1rem;height:56px;padding-inline:1rem;background:var(--rail);color:var(--rail-ink);font-family:var(--font-ui);} .ds-deck{display:grid;min-width:0;flex:1;font-size:0.9375rem;} .ds-deck small{color:var(--rail-ink-2);font:400 0.6875rem/1.3 var(--font-data);} .ds-link{display:inline-flex;align-items:center;gap:0.5rem;font:700 0.8125rem/1.2 var(--font-data);} .ds-bar-lamp{width:8px;height:8px;border-radius:50%;background:#4cc7ea;} .ds-model{display:inline-flex;align-items:center;gap:0.5rem;font:700 0.625rem/1.3 var(--font-data);letter-spacing:0.06em;text-transform:uppercase;color:var(--rail-ink-2);} .ds-model select{padding:0.3rem 0.5rem;border:1px solid rgb(255 255 255 / 0.2);border-radius:3px;background:var(--rail-raised);color:var(--rail-ink);font:0.75rem/1.3 var(--font-data);text-transform:none;letter-spacing:0;} .ds-model select:hover{border-color:rgb(255 255 255 / 0.4);} .ds-export{display:inline-flex;align-items:center;gap:0.45rem;min-height:2.25rem;padding:0.4rem 0.85rem;border:1px solid var(--bay-line);border-radius:3px;background:var(--paper);color:var(--ink);font:700 0.8125rem/1.2 var(--font-ui);white-space:nowrap;cursor:pointer;box-shadow:0 1px 0 rgb(29 38 43 / 0.08);transition:background-color 140ms ease,border-color 140ms ease,transform 80ms ease;border-color:var(--paper);} .ds-export:hover{background:#fff;} .ds-bar :focus-visible{outline:2px solid #4cc7ea;outline-offset:2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Strip Bay",
+    "overview": "Every slide is a flight-progress strip racked in deck order on a gray-green console, and the presenter works the deck the way a controller works traffic. Paper strips sit in colored plastic holders. Printed fields are divided by hairline rules. A lamp lights when Copilot is working a strip, and a pen mark settles it. The interface is dense, calm and operational; it rewards scanning a long rack, not admiring a hero.\n\nHierarchy comes from scale and position rather than color: the strip in hand is lifted out of the rack at display scale, flanked by its neighbors, above a registered comparison of current and proposed notes. Most slides are already fine, so the rack stays quiet. Color appears only where a slide needs something or where work is happening.\n\nThe system rejects the card-grid dashboard with a stats header. Slides are never tiles; they are strips in deck order.",
+    "keyCharacteristics": [
+      "A gray-green console bay ground with a dark green-graphite rail across the top.",
+      "Warm paper strips in amber, steel or graphite holders, segmented into printed fields with 1px rules.",
+      "B612 for words, B612 Mono for everything counted, numbered or printed as a field.",
+      "One cyan lamp for the Copilot loop; hand-drawn pen marks for accepted and rejected.",
+      "Tight corners (2–5px), physical rack depth, no pills and no gradients on surfaces."
+    ],
+    "rules": [
+      {
+        "name": "The Holder Is a Fact Rule",
+        "body": "Holder color encodes the slide as uploaded (needs notes, OK, skip) and never changes with workflow. Workflow state lives in the lamp, the state label and the pen mark.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Lamp Rule",
+        "body": "Lamp cyan is reserved for the Copilot loop (in research, to review, cocked) and for focus. It never decorates.",
+        "section": "colors"
+      },
+      {
+        "name": "The Paper Not White Rule",
+        "body": "Reading surfaces are warm paper. Pure white is only the momentary lift of a hovered or active strip or key.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Faces Rule",
+        "body": "Words in B612; numbers, counts, field names and log lines in B612 Mono with tabular numerals. Never set a count in the sans.",
+        "section": "typography"
+      },
+      {
+        "name": "The Scale Contrast Rule",
+        "body": "The lifted title sits at display scale against 10px mono field labels. Hierarchy comes from that contrast, not from extra weights or colored headings.",
+        "section": "typography"
+      },
+      {
+        "name": "The Printed Field Rule",
+        "body": "Uppercase mono labels name the data in a printed field or divide the rack into sections. They never sit above a headline as a kicker.",
+        "section": "typography"
+      },
+      {
+        "name": "The Fixed Column Rule",
+        "body": "Strip columns are sized to their longest label: designator 4rem, notes 5.75rem, flags 2.75rem, state 6.75rem. The title is the only column that ellipsizes; on narrow racks a field is dropped, never truncated.",
+        "section": "layout"
+      },
+      {
+        "name": "The Rack Depth Rule",
+        "body": "Elevation means where a strip is in the rack (racked, cocked, lifted), never decoration or hover. Keys get only a 1px underline shadow and press down 1px.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** set every number, count and field value in B612 Mono with tabular numerals.",
+      "**Do** show notes health on the five-tick ramp (1/40/80/120/160 words) next to the count.",
+      "**Do** mark accepted strips with the cleared-green pen check and rejected ones with the vermilion pen strike.",
+      "**Do** set current and proposed notes at the same measure (68ch) and line height (1.65) so the comparison is registered.",
+      "**Do** cock a strip 14px out of the rack when its proposal arrives, and keep it cocked until it is opened.",
+      "**Do** collapse all motion to 1ms under `prefers-reduced-motion`."
+    ],
+    "donts": [
+      "**Don't** lay slides out as a card grid or open a view with a stats header; slides are strips in deck order.",
+      "**Don't** use holder color to signal workflow state; holders are facts about the uploaded slide.",
+      "**Don't** use lamp cyan for anything outside the Copilot loop and focus.",
+      "**Don't** put uppercase mono labels above headings as kickers; they name printed fields only.",
+      "**Don't** let a fixed strip field truncate; size the column to its longest label or drop the field at a container breakpoint.",
+      "**Don't** round corners beyond 6px or use pill shapes."
+    ]
+  }
+}

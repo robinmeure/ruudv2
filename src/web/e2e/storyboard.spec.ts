@@ -1,0 +1,286 @@
+import { expect, test } from '@playwright/test'
+import { makeDeck, makeProposal } from '../src/test/fixtures'
+import { emitSlide, mockApi } from './mockApi'
+
+const deckUrl = '/#/decks/fixture-deck'
+const slideUrl = (number: number) => `${deckUrl}/slides/${number}`
+// The fixture proposal is bilingual; the editor edits the English section and keeps the Dutch one.
+const bilingual = (english: string) => `English Version\n${english}\n\nDutch Version\nLeg het migratieplan uit en bevestig de vereisten.`
+
+test('opens a deck in order and combines search, filters, visible selection and active review', async ({ page }) => {
+  await mockApi(page)
+  await page.goto('/')
+  await page.getByRole('link', { name: /Migration planning workshop/ }).click()
+  const links = page.locator('.tile-preview')
+  await expect(links).toHaveCount(78)
+  await expect(links.nth(0)).toHaveAttribute('href', /slides\/1$/)
+  await expect(links.nth(1)).toHaveAttribute('href', /slides\/2$/)
+  await page.getByRole('checkbox', { name: 'Select slide 3: Untitled image slide' }).check()
+  const search = page.getByRole('searchbox')
+  await search.fill('business case')
+  await page.getByRole('button', { name: /^To review/ }).click()
+  await expect(links).toHaveCount(1)
+  await page.getByRole('checkbox', { name: 'Select visible' }).check()
+  await expect(page.getByText('1 of 78 slides shown · 2 selected across the deck')).toBeVisible()
+  await links.first().click()
+  await expect(page).toHaveURL(/slides\/2$/)
+  await search.fill('no such slide')
+  await expect(page.getByRole('region', { name: 'Review slide 2', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Reveal in storyboard' }).click()
+  await expect(links).toHaveCount(78)
+  await expect(page.getByRole('checkbox', { name: 'Select slide 3: Untitled image slide' })).toBeChecked()
+  await page.getByRole('button', { name: 'Clear selection' }).click()
+  await expect(page.getByText('78 of 78 slides shown · 0 selected across the deck')).toBeVisible()
+})
+
+test('preserves edits through SSE and failed saves, prevents duplicate acceptance, then exports confirmed notes', async ({ page }) => {
+  const api = await mockApi(page)
+  await page.goto(slideUrl(2))
+  const editor = page.getByRole('textbox', { name: 'Proposed notes' })
+  await editor.fill('My edited proposal')
+  await emitSlide(page, { ...api.deck.slides[1], activity: ['10:02:00 New activity'] })
+  await expect(editor).toHaveValue('My edited proposal')
+  api.failReview = true
+  await page.getByRole('button', { name: 'Accept notes', exact: true }).click()
+  await expect(page.locator('.decision-error')).toContainText('The review could not be saved.')
+  await expect(editor).toHaveValue('My edited proposal')
+  await expect(page.getByRole('button', { name: /Export a copy with 1 accepted/ })).toBeVisible()
+  api.failReview = false
+  let release!: () => void
+  api.reviewGate = new Promise<void>((resolve) => { release = resolve })
+  await page.getByRole('button', { name: 'Accept notes', exact: true }).dblclick()
+  await expect(page.getByRole('button', { name: 'Saving…' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: /Export a copy with 1 accepted/ })).toBeDisabled()
+  expect(api.reviews).toHaveLength(2)
+  release()
+  await expect(page.getByRole('textbox', { name: 'Accepted notes' })).toHaveValue('My edited proposal')
+  const exportButton = page.getByRole('button', { name: /Export a copy with 2 accepted/ })
+  await expect(exportButton).toBeEnabled()
+  const downloads: string[] = []
+  page.on('download', (download) => downloads.push(download.suggestedFilename()))
+  api.failExport = true
+  await exportButton.click()
+  const callout = page.getByRole('dialog', { name: 'Create an enriched copy' })
+  await expect(callout).toContainText('storyboard-fixture-enriched.pptx')
+  await callout.getByRole('button', { name: 'Create PPTX copy' }).click()
+  await expect(page.getByText('Export could not be prepared. Try again.')).toBeVisible()
+  expect(downloads).toEqual([])
+  api.failExport = false
+  const download = page.waitForEvent('download')
+  await callout.getByRole('button', { name: 'Create PPTX copy' }).click()
+  expect((await download).suggestedFilename()).toBe('storyboard-fixture-enriched.pptx')
+  await expect(callout).toBeHidden()
+  expect(api.reviews[1]).toEqual({ number: 2, status: 'accepted', notes: bilingual('My edited proposal') })
+})
+
+test('guards Back and Forward navigation and preserves history when staying or discarding', async ({ page }) => {
+  await mockApi(page)
+  await page.goto(slideUrl(1))
+  await page.getByRole('link', { name: 'Open slide 2: Why migrate now' }).click()
+  await page.getByRole('textbox', { name: 'Proposed notes' }).fill('Unsaved browser history edits')
+  await page.evaluate(() => history.back())
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toBeVisible()
+  await expect(page).toHaveURL(/slides\/2$/)
+  await dialog.getByRole('button', { name: 'Stay', exact: true }).click()
+  await expect(page.getByRole('textbox', { name: 'Proposed notes' })).toHaveValue('Unsaved browser history edits')
+  await page.evaluate(() => history.back())
+  await dialog.getByRole('button', { name: 'Discard and continue' }).click()
+  await expect(page).toHaveURL(/slides\/1$/)
+  await page.evaluate(() => history.forward())
+  await expect(page).toHaveURL(/slides\/2$/)
+  await expect(page.getByRole('textbox', { name: 'Proposed notes' })).toHaveValue('Explain the migration plan and confirm the prerequisites.')
+})
+
+test('offers save-and-switch only for valid drafts and does not navigate after a failed save', async ({ page }) => {
+  const api = await mockApi(page)
+  await page.goto(slideUrl(2))
+  const editor = page.getByRole('textbox', { name: 'Proposed notes' })
+  await editor.fill('')
+  await page.getByRole('link', { name: 'Close review' }).click()
+  await expect(page.getByRole('dialog').getByRole('button', { name: 'Accept and continue' })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Stay', exact: true }).click()
+  await editor.fill('Valid saved navigation')
+  await page.getByRole('link', { name: 'Open slide 3: Untitled image slide' }).click()
+  api.failReview = true
+  await page.getByRole('button', { name: 'Accept and continue' }).click()
+  await expect(page.getByRole('dialog')).toContainText('The review could not be saved.')
+  await expect(page).toHaveURL(/slides\/2$/)
+  api.failReview = false
+  await page.getByRole('button', { name: 'Accept and continue' }).click()
+  await expect(page).toHaveURL(/slides\/3$/)
+  expect(api.deck.slides[1].acceptedNotes).toBe(bilingual('Valid saved navigation'))
+})
+
+test('retains original notes, real diff and provenance, rejection/undo, manual notes, and accepted edits', async ({ page }) => {
+  await mockApi(page)
+  await page.goto(slideUrl(2))
+  await expect(page.getByText('Confirm release status before presenting.', { exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Changes', exact: true }).click()
+  await expect(page.locator('.notes-diff ins').first()).toBeVisible()
+  await expect(page.locator('.notes-diff del').first()).toBeVisible()
+  await page.getByRole('button', { name: 'Original notes', exact: true }).click()
+  await expect(page.locator('.notes-original')).toContainText('Original presenter notes.')
+  const source = page.getByRole('link', { name: /Azure migration overview/ })
+  await expect(source).toHaveAttribute('href', makeProposal().sources[0].url)
+  await page.getByRole('button', { name: 'Reject', exact: true }).click()
+  await page.getByRole('button', { name: 'Undo rejection' }).click()
+  await expect(page.getByRole('button', { name: 'Accept notes', exact: true })).toBeEnabled()
+  await page.getByRole('link', { name: 'Open slide 3: Untitled image slide' }).click()
+  await page.getByRole('button', { name: 'Write notes yourself' }).click()
+  await page.getByRole('textbox', { name: 'Your notes' }).fill('word '.repeat(300))
+  await page.getByRole('button', { name: 'Accept notes', exact: true }).click()
+  await page.getByRole('textbox', { name: 'Accepted notes' }).fill('Accepted manual edits')
+  await page.getByRole('button', { name: 'Save edits' }).click()
+  await expect(page.getByText('Saved for export', { exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Undo acceptance' }).click()
+  await expect(page.getByRole('button', { name: 'Write notes yourself' })).toBeVisible()
+})
+
+test('researches a confirmed batch, streams a new proposal, cancels work, and recovers the live connection', async ({ page }) => {
+  const api = await mockApi(page)
+  await page.goto(deckUrl)
+  await page.getByRole('checkbox', { name: 'Select slide 3: Untitled image slide' }).check()
+  await page.getByRole('checkbox', { name: /^Select slide 4:/ }).check()
+  await page.getByRole('button', { name: 'Research 2 selected' }).click()
+  expect(api.research).toHaveLength(0)
+  await page.getByRole('button', { name: 'Start research', exact: true }).click()
+  await expect(page.getByText('78 of 78 slides shown · 0 selected across the deck')).toBeVisible()
+  expect(api.research).toEqual([[3, 4]])
+  api.deck.slides[2] = { ...api.deck.slides[2], proposal: makeProposal(), status: 'Succeeded', review: 'Pending' }
+  await emitSlide(page, api.deck.slides[2])
+  const tile = page.locator('.slide-tile').filter({ has: page.getByRole('link', { name: 'Open slide 3: Untitled image slide' }) })
+  await expect(tile.getByText('New proposal')).toBeVisible()
+  await tile.getByRole('link').click()
+  await expect(tile.getByText('New proposal')).toHaveCount(0)
+  await page.getByRole('button', { name: /^Stop all/ }).click()
+  await expect(page.getByRole('button', { name: /^Stop all/ })).toHaveCount(0)
+  await page.evaluate(() => window.dispatchEvent(new Event('test-deck-disconnect')))
+  await expect(page.getByText('Connection lost. Reconnecting\u00a0…')).toBeVisible()
+  const reads = api.reads
+  await page.getByRole('button', { name: 'Refresh deck' }).click()
+  await expect.poll(() => api.reads).toBeGreaterThan(reads)
+  await page.evaluate(() => window.dispatchEvent(new CustomEvent('test-deck-event', { detail: { type: 'connected' } })))
+  await expect(page.getByText('Live updates connected')).toBeVisible()
+})
+
+test('uses visible-result keyboard navigation but does not intercept typing or modified keys', async ({ page }) => {
+  await mockApi(page)
+  await page.goto(deckUrl)
+  await page.getByRole('button', { name: /^To review/ }).click()
+  await page.keyboard.press('j')
+  await expect(page).toHaveURL(/slides\/2$/)
+  await page.getByRole('textbox', { name: 'Proposed notes' }).focus()
+  await page.keyboard.press('k')
+  await expect(page).toHaveURL(/slides\/2$/)
+  await page.getByRole('heading', { name: 'Why migrate now', exact: true, level: 2 }).focus()
+  await page.keyboard.press('Shift+K')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+})
+
+test('retries failed research, removes just that slide, and guards a draft before researching again', async ({ page }) => {
+  const api = await mockApi(page)
+  await page.goto(slideUrl(6))
+  await expect(page.getByText(/Research failed: The public source did not respond/)).toBeVisible()
+  await page.getByRole('button', { name: 'Retry research' }).click()
+  expect(api.research).toHaveLength(0)
+  await page.getByRole('button', { name: 'Start research', exact: true }).click()
+  await expect(page.getByText('Queued for research', { exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Remove from queue', exact: true }).click()
+  await expect(page.getByText('Research was cancelled. You can research again or write notes.')).toBeVisible()
+  expect(api.cancellations).toEqual(['/api/decks/fixture-deck/slides/6/cancel'])
+  await page.getByRole('link', { name: 'Open slide 2: Why migrate now' }).click()
+  await page.getByRole('textbox', { name: 'Proposed notes' }).fill('Do not discard this draft silently')
+  await page.getByRole('button', { name: 'Research again' }).click()
+  await page.getByRole('button', { name: 'Start research', exact: true }).click()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Accept and continue' })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Stay', exact: true }).click()
+  expect(api.research).toEqual([[6]])
+  await expect(page.getByRole('textbox', { name: 'Proposed notes' })).toHaveValue('Do not discard this draft silently')
+})
+
+test('shows recoverable missing/error/empty deck states and unavailable Copilot without inventing sources', async ({ page }) => {
+  const api = await mockApi(page)
+  api.missing = true
+  await page.goto(deckUrl)
+  await expect(page.getByText('This deck is no longer available.')).toBeVisible()
+  api.missing = false
+  api.loadError = true
+  await page.reload()
+  await expect(page.getByRole('button', { name: 'Retry loading deck' })).toBeVisible()
+  api.loadError = false
+  api.deck = makeDeck(0)
+  api.offline = true
+  await page.getByRole('button', { name: 'Retry loading deck' }).click()
+  await expect(page.getByRole('heading', { name: 'This deck has no slides.' })).toBeVisible()
+  api.deck = makeDeck()
+  api.deck.slides[1].proposal = { ...makeProposal(), sources: [], warnings: [] }
+  await page.goto(slideUrl(2))
+  await page.reload()
+  await expect(page.getByText('No public sources were returned. Treat this proposal with care.')).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Research again' })).toBeDisabled()
+  await expect(page.getByRole('button', { name: 'Accept notes', exact: true })).toBeEnabled()
+})
+
+test('validates 78-slide layouts, bilingual content, and mobile storyboard scroll restoration', async ({ page }, testInfo) => {
+  await mockApi(page)
+  const start = Date.now()
+  await page.goto(deckUrl)
+  await expect(page.locator('.tile-preview')).toHaveCount(78)
+  const renderMs = Date.now() - start
+  const searchStart = Date.now()
+  await page.getByRole('searchbox').fill('Business case')
+  await expect(page.locator('.tile-preview')).toHaveCount(1)
+  const filterMs = Date.now() - searchStart
+  console.info(`78-slide fixture: initial display ${renderMs}ms; filtered result ${filterMs}ms`)
+  const contrasts = await page.evaluate(() => {
+    const style = getComputedStyle(document.documentElement)
+    const luminance = (token: string) => {
+      const hex = style.getPropertyValue(token).trim().slice(1)
+      const channels = [0, 2, 4].map((offset) => parseInt(hex.slice(offset, offset + 2), 16) / 255)
+        .map((channel) => channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4)
+      return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
+    }
+    return [['--text', '--surface'], ['--muted', '--canvas'], ['--action', '--surface'],
+      ['--success', '--success-soft'], ['--warning', '--warning-soft'], ['--danger', '--danger-soft']]
+      .map(([foreground, background]) => {
+        const a = luminance(foreground), b = luminance(background)
+        return { foreground, ratio: (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05) }
+      })
+  })
+  for (const contrast of contrasts) expect(contrast.ratio, contrast.foreground).toBeGreaterThanOrEqual(4.5)
+  await page.getByRole('searchbox').fill('')
+  await testInfo.attach('78-slide-render-and-filter', { body: JSON.stringify({ renderMs, filterMs }), contentType: 'application/json' })
+  for (const width of [1440, 1024, 768, 390]) {
+    await page.setViewportSize({ width, height: 1000 })
+    await page.goto(slideUrl(2))
+    await expect(page.getByRole('textbox', { name: 'Proposed notes' })).toBeVisible()
+    await expect(page.getByRole('link', { name: 'Notes Enricher, all decks' })).toBeVisible()
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+    const footer = page.locator('.review-decisions')
+    await expect(footer.getByRole('button', { name: 'Accept notes', exact: true })).toBeInViewport()
+    await page.screenshot({ path: testInfo.outputPath(`review-${width}.png`) })
+    await page.getByRole('link', { name: 'Close review' }).click()
+    await expect(page.getByRole('searchbox')).toBeVisible()
+    await page.screenshot({ path: testInfo.outputPath(`storyboard-${width}.png`) })
+  }
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.getByRole('link', { name: /^Open slide 4:/ }).click()
+  await page.getByRole('button', { name: 'Original notes', exact: true }).click()
+  await expect(page.locator('.notes-original')).toContainText('Bespreek de uitgangspunten')
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+  await page.getByRole('link', { name: 'Close review' }).click()
+  const last = page.getByRole('link', { name: 'Open slide 78: Slide topic 78' })
+  await last.scrollIntoViewIfNeeded()
+  const scrollTop = await page.locator('.storyboard-scroll').evaluate((el) => el.scrollTop)
+  await last.click()
+  await page.getByRole('link', { name: 'Close review' }).click()
+  expect(await page.locator('.storyboard-scroll').evaluate((el) => el.scrollTop)).toBe(scrollTop)
+  await expect(last).toBeFocused()
+  await page.setViewportSize({ width: 720, height: 450 })
+  await page.goto(slideUrl(2))
+  await expect(page.getByRole('button', { name: 'Accept notes', exact: true })).toBeInViewport({ ratio: 1 })
+  await page.screenshot({ path: testInfo.outputPath('review-short.png') })
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+})

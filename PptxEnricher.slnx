@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PptxEnricher.Api/PptxEnricher.Api.csproj" />
+    <Project Path="src/PptxEnricher.AppHost/PptxEnricher.AppHost.csproj" />
+    <Project Path="src/PptxEnricher.ServiceDefaults/PptxEnricher.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PptxEnricher.Api.Tests/PptxEnricher.Api.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,18 @@
+# .NET
+bin/
+obj/
+*.user
+.vs/
+TestResults/
+
+# Node
+node_modules/
+dist/
+
+# Local review screenshots
+.impeccable/review/
+
+# Browser test output
+playwright-report/
+test-results/
+RMOT2026052905281309_Azure_20261001074636-short.pptx

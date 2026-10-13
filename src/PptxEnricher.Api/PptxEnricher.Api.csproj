@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- GHCP001: PermissionDecision and typed SendAndWaitAsync<T> are marked experimental in the Copilot SDK. -->
+    <NoWarn>$(NoWarn);GHCP001</NoWarn>
+    <!-- The API connects to the user's own running Copilot CLI, so the SDK's bundled runtime isn't needed. -->
+    <CopilotSkipCliDownload>true</CopilotSkipCliDownload>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocumentFormat.OpenXml" Version="3.5.1" />
+    <PackageReference Include="GitHub.Copilot.SDK" Version="1.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PptxEnricher.ServiceDefaults\PptxEnricher.ServiceDefaults.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Enrichment\Prompts\*.md" LogicalName="PptxEnricher.Api.Prompts.%(Filename)%(Extension)" />
+    <InternalsVisibleTo Include="PptxEnricher.Api.Tests" />
+  </ItemGroup>
+
+</Project>
